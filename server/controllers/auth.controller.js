@@ -43,7 +43,7 @@ const handleAuth = async (req, res) => {
 };
 
 const verifyAuth = async (req, res, next) => {
-    const  authorization = req.headers['authorization'];
+    const authorization = req.headers['authorization'];
 
     const accessToken = authorization && authorization.split(' ')[1];
 
@@ -68,10 +68,11 @@ const refreshToken = async (req, res) => {
     try {
         const user = await authenticateToken(token);
 
-        const accessToken = createAccessToken(user_id);
+        const accessToken = createAccessToken(user.id);
 
         return res.status(200).json({ token: accessToken });
     } catch (error) {
+        console.log(error);
         return res.status(403).json({ message: error.message });
     }
 };
