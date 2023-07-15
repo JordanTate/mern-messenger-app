@@ -55,13 +55,18 @@ const User = {
     },
 
     async findById(id) {
-        const results = await db.query('SELECT * FROM users WHERE id = ?', [id]);
-    
-        if (results.length === 0) throw new Error('User not found');
+        return new Promise((resolve, reject) => {
+            // Check Database for Existing User or Credentials
+            db.query('SELECT * FROM users WHERE id = ?', [id], (error, results) => {
+                if (error) reject(new Error(error));
 
-        const user = results[0];
-    
-        return user;
+                if (results.length === 0) return reject(new Error('User not found'));
+
+                const user = {...results[0]};
+
+                resolve(user);
+            });
+        });
     }
 }
 
