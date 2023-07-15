@@ -17,7 +17,7 @@ const handleAuth = async (req, res) => {
 
                 res.cookie('token', refreshToken, { httpOnly: true, SameSite: 'none' });
 
-                return res.status(200).json({ user_id: user.id, username: user.username, token: accessToken });
+                return res.status(200).json({ id: user.id, username: user.username, token: accessToken });
             } catch (error) {
                 return res.status(400).json({ message: error.message });
             }
@@ -27,7 +27,7 @@ const handleAuth = async (req, res) => {
 
                 const accessToken = createAccessToken(user.id);
 
-                return res.status(200).json({ user_id: user.id, username: user.username, token: accessToken });
+                return res.status(200).json({ id: user.id, username: user.username, token: accessToken });
             } catch (error) {
                 return res.status(400).json({ message: error.message });
             }
@@ -70,7 +70,7 @@ const refreshToken = async (req, res) => {
 
         const accessToken = createAccessToken(user.id);
 
-        return res.status(200).json({ token: accessToken });
+        return res.status(200).json({ id: user.id, username: user.username, token: accessToken });
     } catch (error) {
         console.log(error);
         return res.status(403).json({ message: error.message });
