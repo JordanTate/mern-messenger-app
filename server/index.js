@@ -6,6 +6,7 @@ import "./config/env.config.js";
 
 // Route Handlers
 import authRoutes from "./routes/auth.routes.js";
+import contactRoutes from "./routes/contact.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 
 // Set Express App
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/contacts", contactRoutes);
 app.use("/api/messages", messageRoutes);
 
 // Configure Port
