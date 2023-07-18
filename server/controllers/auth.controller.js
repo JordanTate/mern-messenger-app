@@ -60,7 +60,7 @@ const verifyAuth = async (req, res, next) => {
     }
 };
 
-const refreshToken = async (req, res) => {
+const refreshToken = async (req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) return res.status(401).json({ message: 'Unauthorised' });
@@ -70,7 +70,9 @@ const refreshToken = async (req, res) => {
 
         const accessToken = createAccessToken(user.id);
 
-        return res.status(200).json({ id: user.id, username: user.username, token: accessToken });
+        res.status(200).json({ id: user.id, username: user.username, token: accessToken });
+
+        next();
     } catch (error) {
         console.log(error);
         return res.status(403).json({ message: error.message });
