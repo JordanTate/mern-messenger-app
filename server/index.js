@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "./config/env.config.js";
+import socketIO from "./config/socket.io.config.js";
 
 // Route Handlers
 import authRoutes from "./routes/auth.routes.js";
@@ -25,7 +26,10 @@ app.use("/api/messages", messageRoutes);
 // Configure Port
 const PORT = process.env.PORT || 3001;
 
+// Socket.io
+const server = socketIO(app);
+
 // Listen
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
     console.log(`Server running on port ${PORT}`);
 });
