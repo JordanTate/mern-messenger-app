@@ -12,7 +12,7 @@ const User = {
             db.query('SELECT * FROM users WHERE email = ?', [email], (error, results) => {
                 if (error) reject(new Error(error));
 
-                if (results.length === 0) return reject(new Error('User not found'));
+                if (!results || results?.length === 0) return reject(new Error('User not found'));
 
                 const user = {...results[0]};
 
@@ -60,7 +60,7 @@ const User = {
             db.query('SELECT * FROM users WHERE id = ?', [id], (error, results) => {
                 if (error) reject(new Error(error));
 
-                if (results.length === 0) return reject(new Error('User not found'));
+                if (results?.length === 0) return reject(new Error('User not found'));
 
                 const user = {...results[0]};
 
