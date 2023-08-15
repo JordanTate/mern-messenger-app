@@ -7,7 +7,13 @@ const Message = {
             db.query('INSERT INTO messages SET ?', { sender_id, recipient_id, content }, (error, results) => {
                 if (error) reject(new Error(error));
 
-                resolve(results);
+                const { insertId } = results;
+
+                db.query('SELECT * FROM messages WHERE id = ?', insertId, (error, results) => {
+                    if (error) reject(new Error(error));
+
+                    resolve(results[0]);
+                });
             });
         });
     },
