@@ -42,4 +42,4 @@ const searchContacts = async (req, res) => {
     }
 }
 
-export default getContacts;
+export default { getContacts, addContact, searchContacts};
