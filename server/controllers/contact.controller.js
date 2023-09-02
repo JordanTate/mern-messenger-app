@@ -14,4 +14,18 @@ const getContacts = async (req, res) => {
     }
 };
 
+const addContact = async (req, res) => {
+    const user = req.user;
+
+    const { contact } = req.body;
+
+    try {
+        const newContact = await Contact.addContact(user.id, contact);
+
+        return res.status(200).json(newContact);
+    } catch (error) {
+        return res.status(400).json({ message: error.message });
+    }
+}
+
 export default getContacts;
