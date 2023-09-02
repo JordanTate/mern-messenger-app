@@ -60,11 +60,26 @@ const User = {
             db.query('SELECT * FROM users WHERE id = ?', [id], (error, results) => {
                 if (error) reject(new Error(error));
 
-                if (results?.length === 0) return reject(new Error('User not found'));
+                if (!results || results?.length === 0) return reject(new Error('User not found'));
 
                 const user = {...results[0]};
 
                 resolve(user);
+            });
+        });
+    },
+
+    async findByString(string) {
+        return new Promise((resolve, reject) => {
+            // Check Database for Existing Users
+            db.query('SELECT * FROM users WHERE username LIKE ? OR email LIKE ?', [`%${string}%`, `%${string}%`], (error, results) => {
+                if (error) reject(new Error(error));
+
+                if (!results || results?.length === 0) return reject(new Error('No users found'));
+
+                const users = [...results];
+
+                resolve(users);
             });
         });
     }
