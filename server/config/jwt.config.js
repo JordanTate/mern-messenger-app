@@ -11,10 +11,10 @@ const createRefreshToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { ex
 
 const authenticateToken = (token) => {
     return new Promise(async (resolve, reject) => {
-        if (!token) return reject(new Error('Unauthorized'));
+        if (!token) return reject(new Error('Unauthorized. No token provided.'));
 
         await jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-            if (err) return reject(new Error('Forbidden'));
+            if (err) return reject(new Error('Token is either no longer valid or incorrect.'));
 
             const { id } = decoded;
 
