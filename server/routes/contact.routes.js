@@ -2,7 +2,7 @@
 import express from "express";
 
 // Import Controllers
-import { getContacts, addContact, searchContacts} from "../controllers/contact.controller.js";
+import { getContacts, addContact, searchContacts } from "../controllers/contact.controller.js";
 import { verifyAuth } from "../controllers/auth.controller.js";
 
 // Set Express Router
