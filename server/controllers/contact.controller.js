@@ -34,7 +34,7 @@ const searchContacts = async (req, res) => {
     const { query } = req.body;
 
     try {
-        const contacts = await Contact.searchContacts(query);
+        const contacts = await Contact.searchContacts(user.id, query);
 
         return res.status(200).json(contacts);
     } catch (error) {
