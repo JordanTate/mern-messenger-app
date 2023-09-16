@@ -26,7 +26,7 @@ const addContact = async (req, res) => {
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
 const searchContacts = async (req, res) => {
     const user = req.user;
@@ -34,12 +34,12 @@ const searchContacts = async (req, res) => {
     const { query } = req.body;
 
     try {
-        const contacts = await Contact.searchContacts(user.id, query);
+        const contacts = await Contact.searchContacts(query);
 
         return res.status(200).json(contacts);
     } catch (error) {
         return res.status(400).json({ message: error.message });
     }
-}
+};
 
-export default { getContacts, addContact, searchContacts};
+export { getContacts, addContact, searchContacts };
