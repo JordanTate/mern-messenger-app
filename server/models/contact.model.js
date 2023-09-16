@@ -26,9 +26,9 @@ const Contact = {
         });
     },
 
-    async searchContacts(query) {
+    async searchContacts(user_id, query) {
         return new Promise((resolve, reject) => {
-            db.query('SELECT id, username FROM users WHERE username LIKE ? OR email LIKE ?', [`%${query}%`, `%${query}%`], (error, results) => {
+            db.query('SELECT id, username FROM users WHERE (username LIKE ? OR email LIKE ?) AND id != ?', [`%${query}%`, `%${query}%`, `${user_id}`], (error, results) => {
                 if (error) reject(new Error(error));
 
                 const contacts = [...results];
