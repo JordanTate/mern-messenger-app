@@ -47,7 +47,7 @@ const verifyAuth = async (req, res, next) => {
 
     const accessToken = authorization && authorization.split(' ')[1];
 
-    if (!accessToken) return res.status(401).json({ message: 'Unauthorised' });
+    if (!accessToken) return res.status(401).json({ message: 'Unauthorised. No token provided.' });
 
     try {
         const user = await authenticateToken(accessToken);
@@ -63,7 +63,7 @@ const verifyAuth = async (req, res, next) => {
 const refreshToken = async (req, res, next) => {
     const { token } = req.cookies;
 
-    if (!token) return res.status(401).json({ message: 'Unauthorised' });
+    if (!token) return res.status(401).json({ message: 'Unauthorised. No token provided.' });
 
     try {
         const user = await authenticateToken(token);
