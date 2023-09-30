@@ -20,7 +20,7 @@ const addContact = async (req, res) => {
     const { contact } = req.body;
 
     try {
-        const newContact = await Contact.addContact(user.id, contact);
+        const newContact = await Contact.addContact(user.id, contact.id);
 
         return res.status(200).json(newContact);
     } catch (error) {
