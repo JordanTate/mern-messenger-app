@@ -19,7 +19,7 @@ const Contact = {
             db.query('CALL AddContact(?, ?)', [user_id, contact_id], (error, results) => {
                 if (error) reject(new Error(error));
 
-                const contact = results[0][0];
+                const contact = results[0];
 
                 resolve(contact);
             });
