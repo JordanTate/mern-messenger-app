@@ -26,32 +26,27 @@ const User = {
     },
     
     async signup({ username, email, password }) {
-        // Check Database for Existing User or Credentials
-        const results = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-    
-        // If User already exists but `username` and `password` matches, then login()
-        if (results.length > 0) {
-            const existingUser = results[0];
-    
-            if (username == existingUser.username && bcrypt.compare(password, existingUser.password))
-                return this.login({ email, password });
-            else
-                throw new Error('User already exists');
-        }
-    
-        // Hash Password
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
-    
-        // Create User
-        try {
-            const user = await db.query('INSERT INTO users SET ?', { username, email, password: hash });
-    
-            // After successfully creating the User, login()
-            return this.login({ email: user.email, password });
-        } catch (error) {
-            throw new Error('There was an issue creating the user. Please try again.');
-        }
+        return new Promise((resolve, reject) => {
+            // Check Database for Existing Username or Email
+            db.query('SELECT * FROM users WHERE username = ? OR email = ?', [username, email], (error, results) => {
+                if (error) reject(new Error(error));
+
+                if (results.length > 0) return reject(new Error('Username or Email already exists'));
+
+                // Hash Password
+                bcrypt.hash(password, 10, (error, hash) => {
+                    if (error) reject(new Error('There was an error during the user creation progress. Please try again.'));
+
+                    // Create User
+                    db.query('INSERT INTO users SET ?', { username, email, password: hash }, (error, results) => {
+                        if (error) reject(new Error('There was an issue creating the user. Please try again.'));
+
+                        // After successfully creating the User, login()
+                        resolve(this.login({ email, password }));
+                    });
+                });
+            });
+        });
     },
 
     async findById(id) {
